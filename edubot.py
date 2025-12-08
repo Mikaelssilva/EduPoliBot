@@ -138,3 +138,20 @@ if __name__ == '__main__':
     # Iniciar polling
     print('Bot rodando...')
     app.run_polling(poll_interval=3)
+
+# ===== SERVER PARA RENDER NÃO MATAR O SERVIÇO =====
+from flask import Flask
+import threading
+import os
+
+app_server = Flask("server")
+
+@app_server.route("/")
+def home():
+    return "EduBot está vivo!"
+
+def start_server():
+    port = int(os.environ.get("PORT", 10000))
+    app_server.run(host="0.0.0.0", port=port)
+
+threading.Thread(target=start_server).start()
