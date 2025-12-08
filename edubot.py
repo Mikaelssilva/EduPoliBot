@@ -97,7 +97,7 @@ Sempre responda em português brasileiro."""
 
 # ===== COMANDOS =====
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-
+    await update.message.reply_photo('data/logo.png')
     await update.message.reply_text(
         '🤖 Bem vindo ao Edu Poli Bot!\n\n'
         '/ia - Perguntar para a IA\n'
