@@ -201,14 +201,15 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 async def books(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    texto = (
+    text = (
         "📚 Livros - Coleção de livros\n\n"
-        "1° Período: https://drive.google.com/drive/folders/1Q4LENnhxnu365w-p57sakfS329Z7H5RA?hl=pt-br\n"
-        "2° Período: https://drive.google.com/drive/folders/1BTpjYaOUuRCaWqQ04pJBbWRsdk_8Rbna?hl=pt-br\n"
-        "3° Período: https://drive.google.com/drive/folders/1m0Y4xUtcMv4aiSFwuNz4InSgu7z9h8ZF?hl=pt-br\n"
-        "4° Período: https://drive.google.com/drive/folders/18xiU2Ec6g_1uCD8L0gPNov6K1bcGBYJw?hl=pt-br\n"
+        "1° Período: https://drive.google.com/drive/folders/17alVRsBedli2YWLvZMv27JZP2U3IH3A9?hl=pt-br\n\n"
+        "2° Período: https://drive.google.com/drive/folders/10vsd7N5exiLe5umwYomsqSe9KtMVpmJh?hl=pt-br\n\n"
+        "3° Período: https://drive.google.com/drive/folders/1m0Y4xUtcMv4aiSFwuNz4InSgu7z9h8ZF?hl=pt-br\n\n"
+        "4° Período: https://drive.google.com/drive/folders/18xiU2Ec6g_1uCD8L0gPNov6K1bcGBYJw?hl=pt-br\n\n"
+        "Bons estudos! 📖"
     )
-    await update.message.reply_text(texto)
+    await update.message.reply_text(text)
 
 async def provas_1(update: Update, context: ContextTypes.DEFAULT_TYPE):
     texto = (
