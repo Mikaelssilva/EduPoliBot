@@ -86,14 +86,16 @@ Sempre responda em português brasileiro."""
 # ===== COMANDOS =====
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
-        '🤖 *EduBot com IA!*\n\n'
-        'Comandos:\n'
-        '/ia [pergunta] - Perguntar para a IA\n'
-        '/resolver [exercício] - Resolver exercício\n'
-        '/explicar [conceito] - Explicar conceito\n'
-        '/provas_1 até /provas_4 - Ver provas\n\n'
-        'Ou apenas envie sua dúvida diretamente!',
-        parse_mode='Markdown'
+        '🤖 *Bem vindo ao Edu Poli Bot!*\n\n'
+        'Comandos:\n\n'
+        '/ia - Perguntar para a IA\n'
+        '/resolver - Resolver exercício\n'
+        '/explicar - Explicar conceito\n'
+        '/provas_1_periodo  - Ver provas\n'
+        '/provas_2_periodo  - Ver provas\n'
+        '/provas_3_periodo  - Ver provas\n'
+        '/provas_4_periodo  - Ver provas\n\n'
+        'Ou apenas envie sua dúvida diretamente!'
     )
 
 
@@ -181,8 +183,7 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "/provas_1_periodo - Provas do 1º período\n"
         "/provas_2_periodo - Provas do 2º período\n"
         "/provas_3_periodo - Provas do 3º período\n"
-        "/provas_4_periodo - Provas do 4º período",
-        parse_mode="Markdown"
+        "/provas_4_periodo - Provas do 4º período"
     )
 
 async def provas_1(update: Update, context: ContextTypes.DEFAULT_TYPE):
