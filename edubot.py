@@ -318,7 +318,7 @@ def start_bot():
     app.add_handler(CommandHandler('provas_2_periodo', provas_2))
     app.add_handler(CommandHandler('provas_3_periodo', provas_3))
     app.add_handler(CommandHandler('provas_4_periodo', provas_4))
-    app.add_handler(CommandHandler('provas', books))
+    app.add_handler(CommandHandler('livros', books))
 
     # Mensagens
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message_async))
