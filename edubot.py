@@ -37,7 +37,7 @@ def perguntar_ia(pergunta, contexto=""):
     if not GROQ_API_KEY:
         return "❌ API Key da IA não configurada."
 
-    url = "https://api.groq.com/v1/chat/completions"
+    url = "https://api.groq.com/openai/v1/chat/completions"
 
     headers = {
         "Authorization": f"Bearer {GROQ_API_KEY}",
@@ -58,7 +58,7 @@ Sempre responda em português brasileiro."""
         system_prompt += f"\n\nContexto adicional: {contexto}"
 
     data = {
-        "model": "llama-3.1-70b-versatile",  # Modelo gratuito e bom
+        "model": "llama3-8b-8192",  # Modelo correto
         "messages": [
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": pergunta}
@@ -69,16 +69,29 @@ Sempre responda em português brasileiro."""
 
     try:
         response = requests.post(url, headers=headers, json=data, timeout=30)
+
+        # Debug - ver o que a API retornou
+        print(f"Status: {response.status_code}")
+        print(f"Response: {response.text[:200]}")
+
         response.raise_for_status()
 
         resultado = response.json()
         resposta = resultado['choices'][0]['message']['content']
         return resposta
 
+    except requests.exceptions.HTTPError as e:
+        error_msg = f"Erro HTTP {response.status_code}"
+        try:
+            error_detail = response.json()
+            error_msg += f": {error_detail.get('error', {}).get('message', 'Erro desconhecido')}"
+        except:
+            error_msg += f": {response.text[:200]}"
+        return f"❌ {error_msg}"
     except requests.exceptions.Timeout:
         return "⏱️ A IA demorou muito para responder. Tente novamente."
     except requests.exceptions.RequestException as e:
-        return f"❌ Erro ao conectar com a IA: {str(e)}"
+        return f"❌ Erro ao conectar: {str(e)}"
     except Exception as e:
         return f"❌ Erro inesperado: {str(e)}"
 
