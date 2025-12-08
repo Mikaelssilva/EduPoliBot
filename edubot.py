@@ -32,48 +32,55 @@ def start_server():
 
 # ===== FUNÇÃO DE IA =====
 def perguntar_ia(pergunta, contexto=""):
+    """Faz pergunta para a IA"""
+
     if not GROQ_API_KEY:
         return "❌ API Key da IA não configurada."
 
-    url = "https://api.groq.com/openai/v1/responses"
+    url = "https://api.groq.com/v1/chat/completions"
 
     headers = {
         "Authorization": f"Bearer {GROQ_API_KEY}",
         "Content-Type": "application/json"
     }
 
-    system_prompt = """Você é um assistente educacional para estudantes de engenharia.
-Responda sempre em português brasileiro, de forma clara e objetiva."""
+    # Prompt do sistema - define o comportamento da IA
+    system_prompt = """Você é um assistente educacional para estudantes de engenharia. 
+Seja objetivo, claro e educado. Ajude com dúvidas sobre:
+- Cálculo, Física, Álgebra
+- Explicações de conceitos
+- Resolução de exercícios
+- Dicas de estudo
+
+Sempre responda em português brasileiro."""
 
     if contexto:
-        system_prompt += f"\nContexto: {contexto}"
+        system_prompt += f"\n\nContexto adicional: {contexto}"
 
     data = {
-        "model": "llama3-70b-8192",
-        "input": [
-            {
-                "role": "system",
-                "content": system_prompt
-            },
-            {
-                "role": "user",
-                "content": pergunta
-            }
-        ]
+        "model": "llama-3.1-70b-versatile",  # Modelo gratuito e bom
+        "messages": [
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": pergunta}
+        ],
+        "temperature": 0.7,
+        "max_tokens": 1000
     }
 
     try:
         response = requests.post(url, headers=headers, json=data, timeout=30)
         response.raise_for_status()
-        result = response.json()
 
-        # Extrair texto da resposta
-        resposta = result["output_text"]
+        resultado = response.json()
+        resposta = resultado['choices'][0]['message']['content']
         return resposta
 
-    except Exception as e:
+    except requests.exceptions.Timeout:
+        return "⏱️ A IA demorou muito para responder. Tente novamente."
+    except requests.exceptions.RequestException as e:
         return f"❌ Erro ao conectar com a IA: {str(e)}"
-
+    except Exception as e:
+        return f"❌ Erro inesperado: {str(e)}"
 
 # ===== COMANDOS =====
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
