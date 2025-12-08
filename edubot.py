@@ -35,8 +35,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         '📌 /provas_2_periodo\n'
         '📌 /provas_3_periodo\n'
         '📌 /provas_4_periodo\n\n'
-        'Use /help para mais informações!',
-        parse_mode='Markdown'
+        'Use /help para mais informações!'
     )
 
 
@@ -49,8 +48,7 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         '/provas_2_periodo - Provas do 2º período\n'
         '/provas_3_periodo - Provas do 3º período\n'
         '/provas_4_periodo - Provas do 4º período\n\n'
-        '💡 Dica: Clique nos links para acessar as pastas com as provas!',
-        parse_mode='Markdown'
+        '💡 Dica: Clique nos links para acessar as pastas com as provas!'
     )
 
 
@@ -62,7 +60,7 @@ async def provas_1(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "🔹 Química: https://drive.google.com/drive/folders/1kBdvQ0cpD_QovwR_Fgj4xn1625zdZA-i\n\n"
         "Bons estudos! 📖"
     )
-    await update.message.reply_text(texto, parse_mode='Markdown')
+    await update.message.reply_text(texto)
 
 
 async def provas_2(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -75,7 +73,7 @@ async def provas_2(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "🔹 Probabilidade e Estatística: https://drive.google.com/drive/folders/15psYZEs9GQWudgW8DhV0w_9ZuidUtNuU\n\n"
         "Bons estudos! 📖"
     )
-    await update.message.reply_text(texto, parse_mode='Markdown')
+    await update.message.reply_text(texto)
 
 
 async def provas_3(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -87,7 +85,7 @@ async def provas_3(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "🔹 Física 2: https://drive.google.com/drive/folders/1TgCcB1FzNPh5akjVIc5dQL9S0VVlM672\n\n"
         "Bons estudos! 📖"
     )
-    await update.message.reply_text(texto, parse_mode='Markdown')
+    await update.message.reply_text(texto)
 
 
 async def provas_4(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -98,7 +96,7 @@ async def provas_4(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "🔹 Laboratório de Física Básica: https://drive.google.com/drive/folders/1AUD9Txk_q6hKLkiNKhp2AMU6hYhNW-0e\n\n"
         "Bons estudos! 📖"
     )
-    await update.message.reply_text(texto, parse_mode='Markdown')
+    await update.message.reply_text(texto)
 
 
 # Gerenciar mensagens
