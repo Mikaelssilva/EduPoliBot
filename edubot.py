@@ -3,8 +3,12 @@ from telegram import Update
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
 from flask import Flask
 import threading
+import requests
+import json
 
 token = getenv("BOT_TOKEN")
+GROQ_API_KEY = getenv("GROQ_API_KEY")
+
 bot_username = "@EduPoliBot"
 
 # ===== SERVIDOR WEB PARA RENDER =====
@@ -26,31 +30,160 @@ def start_server():
     app_server.run(host="0.0.0.0", port=port)
 
 
-# ===== COMANDOS DO BOT =====
+# ===== FUNÇÃO DE IA =====
+def perguntar_ia(pergunta, contexto=""):
+    """Faz pergunta para a IA"""
+
+    if not GROQ_API_KEY:
+        return "❌ API Key da IA não configurada."
+
+    url = "https://api.groq.com/openai/v1/chat/completions"
+
+    headers = {
+        "Authorization": f"Bearer {GROQ_API_KEY}",
+        "Content-Type": "application/json"
+    }
+
+    # Prompt do sistema - define o comportamento da IA
+    system_prompt = """Você é um assistente educacional para estudantes de engenharia. 
+Seja objetivo, claro e educado. Ajude com dúvidas sobre:
+- Cálculo, Física, Álgebra
+- Explicações de conceitos
+- Resolução de exercícios
+- Dicas de estudo
+
+Sempre responda em português brasileiro."""
+
+    if contexto:
+        system_prompt += f"\n\nContexto adicional: {contexto}"
+
+    data = {
+        "model": "llama-3.1-70b-versatile",  # Modelo gratuito e bom
+        "messages": [
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": pergunta}
+        ],
+        "temperature": 0.7,
+        "max_tokens": 1000
+    }
+
+    try:
+        response = requests.post(url, headers=headers, json=data, timeout=30)
+        response.raise_for_status()
+
+        resultado = response.json()
+        resposta = resultado['choices'][0]['message']['content']
+        return resposta
+
+    except requests.exceptions.Timeout:
+        return "⏱️ A IA demorou muito para responder. Tente novamente."
+    except requests.exceptions.RequestException as e:
+        return f"❌ Erro ao conectar com a IA: {str(e)}"
+    except Exception as e:
+        return f"❌ Erro inesperado: {str(e)}"
+
+
+# ===== COMANDOS =====
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
-        '📚 *Bem-vindo ao Edu Poli Bot!*\n\n'
-        'Use os comandos abaixo para acessar as provas:\n\n'
-        '📌 /provas_1_periodo\n'
-        '📌 /provas_2_periodo\n'
-        '📌 /provas_3_periodo\n'
-        '📌 /provas_4_periodo\n\n'
-        'Use /help para mais informações!'
+        '🤖 *EduBot com IA!*\n\n'
+        'Comandos:\n'
+        '/ia [pergunta] - Perguntar para a IA\n'
+        '/resolver [exercício] - Resolver exercício\n'
+        '/explicar [conceito] - Explicar conceito\n'
+        '/provas_1 até /provas_4 - Ver provas\n\n'
+        'Ou apenas envie sua dúvida diretamente!',
+        parse_mode='Markdown'
     )
 
+
+async def comando_ia(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Comando /ia pergunta"""
+    if not context.args:
+        await update.message.reply_text(
+            '❓ Use assim: `/ia sua pergunta aqui`\n\n'
+            'Exemplo: `/ia o que é derivada?`',
+            parse_mode='Markdown'
+        )
+        return
+
+    pergunta = ' '.join(context.args)
+
+    # Mostrar que está processando
+    msg = await update.message.reply_text('🤔 Pensando...')
+
+    # Perguntar para IA
+    resposta = perguntar_ia(pergunta)
+
+    # Enviar resposta
+    await msg.edit_text(f'🤖 *Resposta da IA:*\n\n{resposta}', parse_mode='Markdown')
+
+
+async def resolver_exercicio(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Comando /resolver exercício"""
+    if not context.args:
+        await update.message.reply_text(
+            '📝 Use: `/resolver seu exercício`\n\n'
+            'Exemplo: `/resolver calcule a derivada de x²`',
+            parse_mode='Markdown'
+        )
+        return
+
+    exercicio = ' '.join(context.args)
+    msg = await update.message.reply_text('📊 Resolvendo...')
+
+    contexto = "Resolva o exercício passo a passo, explicando cada etapa."
+    resposta = perguntar_ia(exercicio, contexto)
+
+    await msg.edit_text(f'✏️ *Solução:*\n\n{resposta}', parse_mode='Markdown')
+
+
+async def explicar_conceito(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Comando /explicar conceito"""
+    if not context.args:
+        await update.message.reply_text(
+            '💡 Use: `/explicar conceito`\n\n'
+            'Exemplo: `/explicar integrais`',
+            parse_mode='Markdown'
+        )
+        return
+
+    conceito = ' '.join(context.args)
+    msg = await update.message.reply_text('📚 Explicando...')
+
+    contexto = "Explique de forma simples e didática, com exemplos práticos."
+    resposta = perguntar_ia(f"Explique: {conceito}", contexto)
+
+    await msg.edit_text(f'📖 *Explicação:*\n\n{resposta}', parse_mode='Markdown')
+
+
+# Responder mensagens diretas (opcional)
+async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Responde mensagens normais com IA"""
+    text = update.message.text
+    user_id = update.message.chat.id
+
+    # Ignorar em grupos (só responde em privado)
+    if update.message.chat.type != 'private':
+        return
+
+    msg = await update.message.reply_text('🤔 Analisando sua dúvida...')
+    resposta = perguntar_ia(text)
+    await msg.edit_text(f'🤖 {resposta}')
 
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
-        '🤖 *Comandos Disponíveis:*\n\n'
-        '/start - Iniciar o bot\n'
-        '/help - Ver esta mensagem\n'
-        '/provas_1_periodo - Provas do 1º período\n'
-        '/provas_2_periodo - Provas do 2º período\n'
-        '/provas_3_periodo - Provas do 3º período\n'
-        '/provas_4_periodo - Provas do 4º período\n\n'
-        '💡 Dica: Clique nos links para acessar as pastas com as provas!'
+        "📚 *Comandos disponíveis:*\n\n"
+        "/start - Iniciar o bot\n"
+        "/ia - Perguntar algo para a IA\n"
+        "/resolver - Resolver exercício\n"
+        "/explicar - Explicar conceito\n"
+        "/provas_1_periodo - Provas do 1º período\n"
+        "/provas_2_periodo - Provas do 2º período\n"
+        "/provas_3_periodo - Provas do 3º período\n"
+        "/provas_4_periodo - Provas do 4º período",
+        parse_mode="Markdown"
     )
-
 
 async def provas_1(update: Update, context: ContextTypes.DEFAULT_TYPE):
     texto = (
@@ -153,6 +286,9 @@ def start_bot():
 
     # Comandos
     app.add_handler(CommandHandler('start', start))
+    app.add_handler(CommandHandler('ia', comando_ia))
+    app.add_handler(CommandHandler('resolver', resolver_exercicio))
+    app.add_handler(CommandHandler('explicar', explicar_conceito))
     app.add_handler(CommandHandler('help', help_command))
     app.add_handler(CommandHandler('provas_1_periodo', provas_1))
     app.add_handler(CommandHandler('provas_2_periodo', provas_2))
