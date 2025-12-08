@@ -58,7 +58,7 @@ Sempre responda em português brasileiro."""
         system_prompt += f"\n\nContexto adicional: {contexto}"
 
     data = {
-        "model": "llama3-8b-8192",  # Modelo correto
+        "model": "mixtral-8x7b-32768", # Modelo correto
         "messages": [
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": pergunta}
