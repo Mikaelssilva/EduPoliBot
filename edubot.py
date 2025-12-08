@@ -106,6 +106,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         '/provas_2_periodo  - Ver provas\n'
         '/provas_3_periodo  - Ver provas\n'
         '/provas_4_periodo  - Ver provas\n\n'
+        "/livros - Coleção de livros\n\n"
         'Ou apenas envie sua dúvida diretamente!'
     )
 
@@ -194,28 +195,39 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "/provas_1_periodo - Provas do 1º período\n"
         "/provas_2_periodo - Provas do 2º período\n"
         "/provas_3_periodo - Provas do 3º período\n"
-        "/provas_4_periodo - Provas do 4º período"
+        "/provas_4_periodo - Provas do 4º período\n"
+        "/livros - Coleção de livros"
     )
+
+
+async def books(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    texto = (
+        "📚 Livros - Coleção de livros\n\n"
+        "1° Período: https://drive.google.com/drive/folders/1Q4LENnhxnu365w-p57sakfS329Z7H5RA?hl=pt-br\n"
+        "2° Período: https://drive.google.com/drive/folders/1BTpjYaOUuRCaWqQ04pJBbWRsdk_8Rbna?hl=pt-br\n"
+        "3° Período: https://drive.google.com/drive/folders/1m0Y4xUtcMv4aiSFwuNz4InSgu7z9h8ZF?hl=pt-br\n"
+        "4° Período: https://drive.google.com/drive/folders/18xiU2Ec6g_1uCD8L0gPNov6K1bcGBYJw?hl=pt-br\n"
+    )
+    await update.message.reply_text(texto)
 
 async def provas_1(update: Update, context: ContextTypes.DEFAULT_TYPE):
     texto = (
         "📚 Provas - 1º Período\n\n"
-        "🔹 Cálculo 1: https://drive.google.com/drive/folders/1ybUELl95JAvKEA2BUY3zrh6j92nPLDaN\n\n"
-        "🔹 Geometria Analítica: https://drive.google.com/drive/folders/1AUD9Txk_q6hKLkiNKhp2AMU6hYhNW-0e\n\n"
-        "🔹 Química: https://drive.google.com/drive/folders/1kBdvQ0cpD_QovwR_Fgj4xn1625zdZA-i\n\n"
+        "Cálculo I: https://drive.google.com/drive/folders/1XeT4_rdT4Iu7DvdhERVaMlzHxvru0hAH?hl=pt-br\n\n"
+        "Geometria Analítica: https://drive.google.com/drive/folders/1VEBq3lkDF5sA5SZcZLX7jAOhAnv77CHh?hl=pt-br\n\n"
+        "Química: https://drive.google.com/drive/folders/17jprpf8AK0ZPEF-Ub2UVVot4Vca2I0CS?hl=pt-br\n\n"
         "Bons estudos! 📖"
     )
     await update.message.reply_text(texto)
 
-
 async def provas_2(update: Update, context: ContextTypes.DEFAULT_TYPE):
     texto = (
         "📚 Provas - 2º Período\n\n"
-        "🔹 Cálculo 2: https://drive.google.com/drive/folders/1huKyHXByNya6UOfpbm90mhWGSow70BWk\n\n"
-        "🔹 Álgebra Linear: https://drive.google.com/drive/folders/17PmMaQKq-VY6PcXOQ-QiK150ig8Wg6B9\n\n"
-        "🔹 Física 1: https://drive.google.com/drive/folders/1FteXNEk-TaIXQZAgkm7ni86wGTt6HlPB\n\n"
-        "🔹 Expressão Gráfica: https://drive.google.com/drive/folders/1BVF_6htdX4V2IWSb4MJZZUtkTLPyc-hN\n\n"
-        "🔹 Probabilidade e Estatística: https://drive.google.com/drive/folders/15psYZEs9GQWudgW8DhV0w_9ZuidUtNuU\n\n"
+        "Cálculo II: https://drive.google.com/drive/folders/1Q3820oSZ7ToB7fULESpfArbSUa9cCFmR?hl=pt-br\n\n"
+        "Álgebra Linear: https://drive.google.com/drive/folders/1oBMiN7TNL9jG4K4P1lOSN2TjwSy2XkVK?hl=pt-br\n\n"
+        "Física I: https://drive.google.com/drive/folders/1FteXNEk-TaIXQZAgkm7ni86wGTt6HlPB\n\n"
+        "Expressão Gráfica I: https://drive.google.com/drive/folders/1TagQeNmjuwaQTbrvp66L92OSqw2UOvHN?hl=pt-br\n\n"
+        "Probabilidade e Estatística: https://drive.google.com/drive/folders/15psYZEs9GQWudgW8DhV0w_9ZuidUtNuU?hl=pt-br\n\n"
         "Bons estudos! 📖"
     )
     await update.message.reply_text(texto)
@@ -224,10 +236,10 @@ async def provas_2(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def provas_3(update: Update, context: ContextTypes.DEFAULT_TYPE):
     texto = (
         "📚 Provas - 3º Período\n\n"
-        "🔹 Cálculo 3: https://drive.google.com/drive/folders/10auVZ5mM2HBTIIOdC-OT6QjQdlhV3WHf\n\n"
-        "🔹 Cálculo Numérico: https://drive.google.com/drive/folders/1STexzcxwXeMk9X-P0HhtYynT7FCpqfTM\n\n"
-        "🔹 Desenho Universal: https://drive.google.com/drive/folders/1AUD9Txk_q6hKLkiNKhp2AMU6hYhNW-0e\n\n"
-        "🔹 Física 2: https://drive.google.com/drive/folders/1TgCcB1FzNPh5akjVIc5dQL9S0VVlM672\n\n"
+        "Cálculo III: https://drive.google.com/drive/folders/16uCxyi9JLtn02mdjjvKRxozUV-zOshUA?hl=pt-br\n\n"
+        "Cálculo Numérico: https://drive.google.com/drive/folders/1u_PE8NdAItIfgKkUJrYe6iUS4Apyike6?hl=pt-br\n\n"
+        "Desenho Universal: https://drive.google.com/drive/folders/1U6WvWj-KyW8AK9fCc-sUvypnPNqB0goo?hl=pt-br\n\n"
+        "Física II: https://drive.google.com/drive/folders/1AlEeaITMTuiWgsy8Mn3S5BCT14y9WCz4?hl=pt-br\n\n"
         "Bons estudos! 📖"
     )
     await update.message.reply_text(texto)
@@ -236,9 +248,9 @@ async def provas_3(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def provas_4(update: Update, context: ContextTypes.DEFAULT_TYPE):
     texto = (
         "📚 Provas - 4º Período\n\n"
-        "🔹 Cálculo 4: https://drive.google.com/drive/folders/1olPwxwZw5X1CBC9sJr-5a7gwlTnM0kgE\n\n"
-        "🔹 Física 3: https://drive.google.com/drive/folders/1OTWU5UpiAChZ3c25W4mcFITf1qZ8iYfz\n\n"
-        "🔹 Laboratório de Física Básica: https://drive.google.com/drive/folders/1AUD9Txk_q6hKLkiNKhp2AMU6hYhNW-0e\n\n"
+        "Cálculo IV: https://drive.google.com/drive/folders/1EjEG7GUfMWySbXBWTd9Uak8QlOM-Goep?hl=pt-br\n\n"
+        "Física III: https://drive.google.com/drive/folders/1-_a6seL2E5kxhbej32rL7y7pC6xaVlbn?hl=pt-br\n\n"
+        "Laboratório de Física Básica: https://drive.google.com/drive/folders/14B8JXNLBenmkpI30ZUhPmssquEWZeOi2?hl=pt-br\n\n"
         "Bons estudos! 📖"
     )
     await update.message.reply_text(texto)
@@ -306,6 +318,7 @@ def start_bot():
     app.add_handler(CommandHandler('provas_2_periodo', provas_2))
     app.add_handler(CommandHandler('provas_3_periodo', provas_3))
     app.add_handler(CommandHandler('provas_4_periodo', provas_4))
+    app.add_handler(CommandHandler('provas', books))
 
     # Mensagens
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message_async))
