@@ -35,7 +35,7 @@ def perguntar_ia(pergunta, contexto=""):
     if not GROQ_API_KEY:
         return "❌ API Key da IA não configurada."
 
-    url = "https://api.groq.com/openai/v1/chat/completions"
+    url = "https://api.groq.com/openai/v1/responses"
 
     headers = {
         "Authorization": f"Bearer {GROQ_API_KEY}",
@@ -43,46 +43,45 @@ def perguntar_ia(pergunta, contexto=""):
     }
 
     system_prompt = """Você é um assistente educacional para estudantes de engenharia.
-Seja objetivo, claro e educado.
-Sempre responda em português brasileiro."""
+Responda sempre em português brasileiro, de forma clara e objetiva."""
 
     if contexto:
-        system_prompt += f"\n\nContexto adicional: {contexto}"
+        system_prompt += f"\nContexto: {contexto}"
 
     data = {
         "model": "llama3-70b-8192",
-        "messages": [
-            {"role": "system", "content": system_prompt},
-            {"role": "user", "content": pergunta}
-        ],
-        "temperature": 0.7,
-        "max_tokens": 1000,
-        "stream": False
+        "input": [
+            {
+                "role": "system",
+                "content": system_prompt
+            },
+            {
+                "role": "user",
+                "content": pergunta
+            }
+        ]
     }
 
     try:
         response = requests.post(url, headers=headers, json=data, timeout=30)
         response.raise_for_status()
+        result = response.json()
 
-        resultado = response.json()
-        resposta = resultado["choices"][0]["message"]["content"]
+        # Extrair texto da resposta
+        resposta = result["output_text"]
         return resposta
 
-    except requests.exceptions.RequestException as e:
-        return f"❌ Erro ao conectar com a IA: {str(e)}"
     except Exception as e:
-        return f"❌ Erro inesperado: {str(e)}"
-
+        return f"❌ Erro ao conectar com a IA: {str(e)}"
 
 
 # ===== COMANDOS =====
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
-        '🤖 *Bem vindo ao Edu Poli Bot!*\n\n'
-        'Comandos:\n\n'''
+        '🤖 Bem vindo ao Edu Poli Bot!\n\n'
         '/ia - Perguntar para a IA\n'
         '/resolver - Resolver exercício\n'
-        '/explicar - Explicar conceito\n'
+        '/explicar - Explicar conceito\n\n'
         '/provas_1_periodo  - Ver provas\n'
         '/provas_2_periodo  - Ver provas\n'
         '/provas_3_periodo  - Ver provas\n'
@@ -167,7 +166,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
-        "📚 *Comandos disponíveis:*\n\n"
+        "📚 Comandos disponíveis:\n\n"
         "/start - Iniciar o bot\n"
         "/ia - Perguntar algo para a IA\n"
         "/resolver - Resolver exercício\n"
@@ -180,7 +179,7 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def provas_1(update: Update, context: ContextTypes.DEFAULT_TYPE):
     texto = (
-        "📚 *Provas - 1º Período*\n\n"
+        "📚 Provas - 1º Período\n\n"
         "🔹 Cálculo 1: https://drive.google.com/drive/folders/1ybUELl95JAvKEA2BUY3zrh6j92nPLDaN\n\n"
         "🔹 Geometria Analítica: https://drive.google.com/drive/folders/1AUD9Txk_q6hKLkiNKhp2AMU6hYhNW-0e\n\n"
         "🔹 Química: https://drive.google.com/drive/folders/1kBdvQ0cpD_QovwR_Fgj4xn1625zdZA-i\n\n"
@@ -191,7 +190,7 @@ async def provas_1(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def provas_2(update: Update, context: ContextTypes.DEFAULT_TYPE):
     texto = (
-        "📚 *Provas - 2º Período*\n\n"
+        "📚 Provas - 2º Período\n\n"
         "🔹 Cálculo 2: https://drive.google.com/drive/folders/1huKyHXByNya6UOfpbm90mhWGSow70BWk\n\n"
         "🔹 Álgebra Linear: https://drive.google.com/drive/folders/17PmMaQKq-VY6PcXOQ-QiK150ig8Wg6B9\n\n"
         "🔹 Física 1: https://drive.google.com/drive/folders/1FteXNEk-TaIXQZAgkm7ni86wGTt6HlPB\n\n"
@@ -204,7 +203,7 @@ async def provas_2(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def provas_3(update: Update, context: ContextTypes.DEFAULT_TYPE):
     texto = (
-        "📚 *Provas - 3º Período*\n\n"
+        "📚 Provas - 3º Período\n\n"
         "🔹 Cálculo 3: https://drive.google.com/drive/folders/10auVZ5mM2HBTIIOdC-OT6QjQdlhV3WHf\n\n"
         "🔹 Cálculo Numérico: https://drive.google.com/drive/folders/1STexzcxwXeMk9X-P0HhtYynT7FCpqfTM\n\n"
         "🔹 Desenho Universal: https://drive.google.com/drive/folders/1AUD9Txk_q6hKLkiNKhp2AMU6hYhNW-0e\n\n"
@@ -216,7 +215,7 @@ async def provas_3(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def provas_4(update: Update, context: ContextTypes.DEFAULT_TYPE):
     texto = (
-        "📚 *Provas - 4º Período*\n\n"
+        "📚 Provas - 4º Período\n\n"
         "🔹 Cálculo 4: https://drive.google.com/drive/folders/1olPwxwZw5X1CBC9sJr-5a7gwlTnM0kgE\n\n"
         "🔹 Física 3: https://drive.google.com/drive/folders/1OTWU5UpiAChZ3c25W4mcFITf1qZ8iYfz\n\n"
         "🔹 Laboratório de Física Básica: https://drive.google.com/drive/folders/1AUD9Txk_q6hKLkiNKhp2AMU6hYhNW-0e\n\n"
