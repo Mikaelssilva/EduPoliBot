@@ -97,6 +97,7 @@ Sempre responda em português brasileiro."""
 
 # ===== COMANDOS =====
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+
     await update.message.reply_text(
         '🤖 Bem vindo ao Edu Poli Bot!\n\n'
         '/ia - Perguntar para a IA\n'
@@ -186,6 +187,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await msg.edit_text(f'🤖 {resposta}')
 
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await update.message.reply_photo('data/logo.png')
     await update.message.reply_text(
         "📚 Comandos disponíveis:\n\n"
         "/start - Iniciar o bot\n"
@@ -201,12 +203,14 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 async def books(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await update.message.reply_photo('data/books.png')
     text = (
         "📚 Livros - Coleção de livros\n\n"
         "1° Período: https://drive.google.com/drive/folders/17alVRsBedli2YWLvZMv27JZP2U3IH3A9?hl=pt-br\n\n"
         "2° Período: https://drive.google.com/drive/folders/10vsd7N5exiLe5umwYomsqSe9KtMVpmJh?hl=pt-br\n\n"
         "3° Período: https://drive.google.com/drive/folders/1m0Y4xUtcMv4aiSFwuNz4InSgu7z9h8ZF?hl=pt-br\n\n"
         "4° Período: https://drive.google.com/drive/folders/18xiU2Ec6g_1uCD8L0gPNov6K1bcGBYJw?hl=pt-br\n\n"
+        "Inglês: https://drive.google.com/drive/folders/1PaPacJP2braLOcSpQDWVyw33QcHStpih?hl=pt-br\n\n"
         "Bons estudos! 📖"
     )
     await update.message.reply_text(text)
