@@ -233,6 +233,7 @@ async def provas_2(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "Física I: https://drive.google.com/drive/folders/1FteXNEk-TaIXQZAgkm7ni86wGTt6HlPB\n\n"
         "Expressão Gráfica I: https://drive.google.com/drive/folders/1TagQeNmjuwaQTbrvp66L92OSqw2UOvHN?hl=pt-br\n\n"
         "Probabilidade e Estatística: https://drive.google.com/drive/folders/15psYZEs9GQWudgW8DhV0w_9ZuidUtNuU?hl=pt-br\n\n"
+        "Engenharia Econômica: https://drive.google.com/drive/folders/1HXbTJ8xSx0ES04F1cgCGSItKpbnp1KXn?hl=pt-br\n\n"
         "Bons estudos! 📖"
     )
     await update.message.reply_text(texto)
@@ -245,6 +246,7 @@ async def provas_3(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "Cálculo Numérico: https://drive.google.com/drive/folders/1u_PE8NdAItIfgKkUJrYe6iUS4Apyike6?hl=pt-br\n\n"
         "Desenho Universal: https://drive.google.com/drive/folders/1U6WvWj-KyW8AK9fCc-sUvypnPNqB0goo?hl=pt-br\n\n"
         "Física II: https://drive.google.com/drive/folders/1AlEeaITMTuiWgsy8Mn3S5BCT14y9WCz4?hl=pt-br\n\n"
+        "Estática: https://drive.google.com/drive/folders/1xNKqYuLnCRNco3aD5pLBDTSbKjhQxwTl?hl=pt-br\n\n"
         "Bons estudos! 📖"
     )
     await update.message.reply_text(texto)
@@ -256,6 +258,7 @@ async def provas_4(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "Cálculo IV: https://drive.google.com/drive/folders/1EjEG7GUfMWySbXBWTd9Uak8QlOM-Goep?hl=pt-br\n\n"
         "Física III: https://drive.google.com/drive/folders/1-_a6seL2E5kxhbej32rL7y7pC6xaVlbn?hl=pt-br\n\n"
         "Laboratório de Física Básica: https://drive.google.com/drive/folders/14B8JXNLBenmkpI30ZUhPmssquEWZeOi2?hl=pt-br\n\n"
+        "Dinâmica: https://drive.google.com/drive/folders/1wHPnd_C6eLtWJZQSw05pvW-D6GU5lRUS?hl=pt-br\n\n"
         "Bons estudos! 📖"
     )
     await update.message.reply_text(texto)
